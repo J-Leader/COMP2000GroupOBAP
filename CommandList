@@ -1,0 +1,19 @@
+vim "File Name" to create and edit files
+
+In Vim{
+I to enter insert mode
+Escape to exit insert mode
+
+
+Outside of Insert Mode
+:w is 'write' so saves to file
+:q is quit so takes me back to directory
+
+
+
+
+
+
+
+
+}
