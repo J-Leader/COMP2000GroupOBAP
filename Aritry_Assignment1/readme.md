@@ -98,3 +98,5 @@ java Stage
 
 This will open the game window showing the grid and the animal characters.
 If everything is correct, you’ll see the weather effects changing the grid’s look.
+
+Thank you!!
