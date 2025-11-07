@@ -1,52 +1,59 @@
-import java.util.*;
-import java.util.stream.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public class Stage implements WeatherObserver {
-    private int width, height;
-    private Cell[][] grid;
-    private GameState state;
-    private List<Actor> actors = new ArrayList<>();
 
-    public Stage(int width, int height) {
-        this.width = width;
-        this.height = height;
-        grid = new Cell[width][height];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                grid[x][y] = new Cell(x, y);
+public class Stage {
+    private final Grid grid;
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private volatile boolean running = false;
+
+    
+    public Stage(Grid grid) {
+        this.grid = grid;
+    }
+
+    
+    public void start(int tickSeconds, double noiseRange) {
+        if (running) return;
+        running = true;
+
+        
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                
+                WeatherData global = WeatherData.randomWeather();
+
+                
+                grid.applyGlobalWeatherWithNoise(global, noiseRange);
+
+                
+                double avgRain = grid.averageRainfall();
+                double avgTemp = grid.averageTemperature();
+
+                if (avgRain > 0.75) {
+                    System.out.println("[Stage] Storm conditions detected.");
+                } else if (avgTemp > 0.75) {
+                    System.out.println("[Stage] Heatwave conditions detected.");
+                } else {
+                    System.out.println("[Stage] Conditions normal.");
+                }
+
+                
+                grid.printSnapshot();
+
+            } catch (Exception e) {
+                System.out.println("[Stage] Exception in update tick: " + e.getMessage());
+                e.printStackTrace();
             }
-        }
-        System.out.println("Stage initialized with " + width + "x" + height + " grid.");
+        }, 0, tickSeconds, TimeUnit.SECONDS);
+
+        System.out.println("Stage started: updates every " + tickSeconds + "s, noiseRange=" + noiseRange);
     }
 
-    public void setState(GameState newState) {
-        this.state = newState;
-        System.out.println("State changed to: " + newState.getClass().getSimpleName());
-    }
-
-    public void startGame() {
-        actors.add(new Actor("Hero", new DefensiveStrategy()));
-        actors.add(new Actor("Bot", new AggressiveStrategy()));
-        state.handle();
-    }
-
-    @Override
-    public void onWeatherUpdate(WeatherData data) {
-        System.out.println("Weather updated: " + data);
-
-        
-        Arrays.stream(grid)
-            .flatMap(Arrays::stream)
-            .filter(c -> Math.abs(c.getX()) < width && Math.abs(c.getY()) < height)
-            .forEach(c -> c.updateWeatherEffect(data));
-
-        
-        if (data.getRainfall() > 0.7) {
-            setState(new BotMovingState(this));
-        } else {
-            setState(new ChoosingActorState(this));
-        }
-        state.handle();
+    public void stop() {
+        running = false;
+        scheduler.shutdownNow();
+        System.out.println("Stage stopped.");
     }
 }
-
