@@ -2,35 +2,34 @@ package rvb.actors;
 
 import rvb.grid.Cell;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Bird extends Actor {
-    private final List<Polygon> shapes = new ArrayList<>();
 
-    public Bird(Cell c) {
-        super(c);
-        Point loc = new Point(c.x, c.y);
-        Polygon wing1 = new Polygon(new int[]{loc.x+5, loc.x+15, loc.x+5},
-                                    new int[]{loc.y+5, loc.y+17, loc.y+17},3);
-        Polygon wing2 = new Polygon(new int[]{loc.x+30, loc.x+20, loc.x+30},
-                                    new int[]{loc.y+5, loc.y+17, loc.y+17},3);
-        Polygon body = new Polygon(new int[]{loc.x+15, loc.x+20, loc.x+20, loc.x+15},
-                                   new int[]{loc.y+10, loc.y+10, loc.y+25, loc.y+25},4);
-        shapes.add(wing1); shapes.add(wing2); shapes.add(body);
+    public Bird(Cell cell) {
+        super(cell);
     }
 
     @Override
-public void paint(Graphics2D g) {
-    Color fill = new Color(80, 255, 80);
-    g.setColor(fill);
-    shapes.forEach(g::fillPolygon);
+    public void paint(Graphics2D g) {
+        Cell c = getCell();
+        if (c == null) return;
 
-    Graphics2D g2 = (Graphics2D) g.create();
-    g2.setColor(Color.BLACK);
-    g2.setStroke(new java.awt.BasicStroke(2.2f));
-    shapes.forEach(g2::drawPolygon);
-    g2.dispose();
+        int x = c.x;
+        int y = c.y;
+
+        Polygon wing1 = new Polygon(new int[]{x + 5, x + 15, x + 5}, new int[]{y + 5, y + 17, y + 17}, 3);
+        Polygon wing2 = new Polygon(new int[]{x + 30, x + 20, x + 30}, new int[]{y + 5, y + 17, y + 17}, 3);
+        Polygon body = new Polygon(new int[]{x + 15, x + 20, x + 20, x + 15}, new int[]{y + 10, y + 10, y + 25, y + 25}, 4);
+
+        g.setColor(new Color(80, 255, 80));
+        g.fillPolygon(wing1);
+        g.fillPolygon(wing2);
+        g.fillPolygon(body);
+
+        g.setColor(Color.BLACK);
+        g.setStroke(new BasicStroke(2f));
+        g.drawPolygon(wing1);
+        g.drawPolygon(wing2);
+        g.drawPolygon(body);
     }
 }
-

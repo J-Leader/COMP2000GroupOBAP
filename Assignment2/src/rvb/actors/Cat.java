@@ -2,34 +2,34 @@ package rvb.actors;
 
 import rvb.grid.Cell;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Cat extends Actor {
-    private final List<Polygon> shapes = new ArrayList<>();
 
-    public Cat(Cell c) {
-        super(c);
-        Point loc = new Point(c.x, c.y);
-        Polygon ear1 = new Polygon(new int[]{loc.x+11, loc.x+15, loc.x+7},
-                                   new int[]{loc.y+5, loc.y+15, loc.y+15},3);
-        Polygon ear2 = new Polygon(new int[]{loc.x+22, loc.x+26, loc.x+18},
-                                   new int[]{loc.y+5, loc.y+15, loc.y+15},3);
-        Polygon face = new Polygon(new int[]{loc.x+5, loc.x+29, loc.x+17},
-                                   new int[]{loc.y+15, loc.y+15, loc.y+30},3);
-        shapes.add(ear1); shapes.add(ear2); shapes.add(face);
+    public Cat(Cell cell) {
+        super(cell);
     }
 
     @Override
-public void paint(Graphics2D g) {
-    Color fill = new Color(0, 190, 255); 
-    g.setColor(fill);
-    shapes.forEach(g::fillPolygon);
+    public void paint(Graphics2D g) {
+        Cell c = getCell();
+        if (c == null) return;
 
-    Graphics2D g2 = (Graphics2D) g.create();
-    g2.setColor(Color.BLACK);
-    g2.setStroke(new java.awt.BasicStroke(2.2f));
-    shapes.forEach(g2::drawPolygon);
-    g2.dispose();
+        int x = c.x;
+        int y = c.y;
+
+        Polygon ear1 = new Polygon(new int[]{x + 11, x + 15, x + 7}, new int[]{y + 5, y + 15, y + 15}, 3);
+        Polygon ear2 = new Polygon(new int[]{x + 22, x + 26, x + 18}, new int[]{y + 5, y + 15, y + 15}, 3);
+        Polygon face = new Polygon(new int[]{x + 5, x + 29, x + 17}, new int[]{y + 15, y + 15, y + 30}, 3);
+
+        g.setColor(new Color(0, 190, 255));
+        g.fillPolygon(ear1);
+        g.fillPolygon(ear2);
+        g.fillPolygon(face);
+
+        g.setColor(Color.BLACK);
+        g.setStroke(new BasicStroke(2f));
+        g.drawPolygon(ear1);
+        g.drawPolygon(ear2);
+        g.drawPolygon(face);
     }
 }
