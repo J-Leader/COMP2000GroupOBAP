@@ -21,8 +21,15 @@ public class Cat extends Actor {
     }
 
     @Override
-    public void paint(Graphics2D g) {
-        g.setColor(Color.BLUE);
-        shapes.forEach(g::fillPolygon);
+public void paint(Graphics2D g) {
+    Color fill = new Color(0, 190, 255); 
+    g.setColor(fill);
+    shapes.forEach(g::fillPolygon);
+
+    Graphics2D g2 = (Graphics2D) g.create();
+    g2.setColor(Color.BLACK);
+    g2.setStroke(new java.awt.BasicStroke(2.2f));
+    shapes.forEach(g2::drawPolygon);
+    g2.dispose();
     }
 }
