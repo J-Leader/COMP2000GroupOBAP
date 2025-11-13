@@ -11,9 +11,9 @@ The program integrates:
 * Streamed data processing with lambdas
 * AI-like environmental behavior where actors adapt to changing conditions
 
-#### Use of AI Assistance
+#### Use of AI Assistance in Project Development
 
-This project was developed independently at home, with all coding managed through the team’s Git repository. Due to limited class attendance and time constraints, I used ChatGPT and Google as supplementary learning tools. ChatGPT was used only for guidance and concept clarification, not for generating direct solutions. For example, I asked about relevant Java OOP concepts, classes, and interfaces needed to implement specific features, then applied that knowledge to write the code myself. All final implementations reflect my own understanding and work.
+This project was developed independently at home, with all coding managed through the team’s Git repository. Due to limited class attendance and time constraints, all the tasks from week 6 - 11 were summarized and completed at once instead of going through every week's tasks individually. For this project, I used ChatGPT and Google as supplementary learning tools. ChatGPT was used only for guidance and concept clarification, not for generating direct solutions. For example, I asked about relevant Java OOP concepts, classes, and interfaces needed to implement specific features, then applied that knowledge to write the code myself. All final implementations reflect my own understanding and work.
 
 \*\*\*\*\*This statement is included to maintain transparency and academic integrity regarding the role of AI tools in the completion of this project.\*\*\*\*\*
 
